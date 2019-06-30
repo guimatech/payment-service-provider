@@ -21,12 +21,14 @@ app.use((error, request, response, next) => {
 })
 
 sequelize.sync({ force: !isProduction }).then(() => {
-  const port = process.env.PORT || 3000
+  const port = process.env.PORT || 8080
+  const hostname = process.env.HOST
 
   app.set('port', port)
 
   const server = http.createServer(app)
 
-  console.log('port:' + port)
-  server.listen(port)
+  server.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
+  })
 })
