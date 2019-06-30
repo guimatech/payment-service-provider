@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: mypassword
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    ports:
+      - 5432
+  server:
+    build: .
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - 8080:8080
+      - 3000:3000
+    depends_on:
+      - db
