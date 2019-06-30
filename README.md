@@ -4,9 +4,11 @@ Versão simplificada de um Payment Service Provider (PSP) como o Pagar.me, esse 
 
 # Instalação
 
-Utilize o seguinte comando: 
+Utilize o seguinte comando:
 
-`docker-compose up`
+```
+./script/install.sh
+```
 
 # Endpoints
 
