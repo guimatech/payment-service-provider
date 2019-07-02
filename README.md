@@ -14,7 +14,7 @@ Utilize o seguinte comando:
 
 GET /api/transactions
 
-GET /api/transactions/?id=1
+GET /api/transactions/1
 
 GET /api/transactions/?limite=10&page=1
 
@@ -22,6 +22,6 @@ GET /api/transactions/?limite=1&page='1=1'
 
 POST /api/transactions
 
-PUT /api/transactions/?id=1
+PUT /api/transactions/1
 
-DELETE /api/transactions/?id=1
+DELETE /api/transactions/1
