@@ -21,8 +21,8 @@ app.use((error, request, response, next) => {
 })
 
 sequelize.sync({ force: !isProduction }).then(() => {
-  const port = process.env.PORT || 8080
-  const hostname = process.env.HOST
+  const port = process.env.PORT || 3000
+  const hostname = process.env.HOST || '0.0.0.0'
 
   app.set('port', port)
 

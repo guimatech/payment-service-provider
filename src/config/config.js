@@ -1,7 +1,7 @@
 module.exports = {
   development: {
     database: {
-      host: 'localhost',
+      host: 'db',
       port: 5432,
       name: 'postgres',
       dialect: 'postgres',

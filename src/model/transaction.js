@@ -45,7 +45,7 @@ const Transaction = sequelize.define('transaction', {
     allowNull: false,
     type: Sequelize.STRING(3),
     validate: {
-      len: [3]
+      len: [3, 3]
     }
   }
 })

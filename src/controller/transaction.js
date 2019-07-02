@@ -42,7 +42,7 @@ exports.create = (request, response, next) => {
   const cardNumber = request.body.cardNumber
   const cardHolderName = request.body.cardHolderName
   const expirationDate = request.body.expirationDate
-  const CVV = request.body.CVV
+  const cvv = request.body.cvv
 
   Transaction.create({
     value: value,
@@ -51,7 +51,7 @@ exports.create = (request, response, next) => {
     cardNumber: cardNumber,
     cardHolderName: cardHolderName,
     expirationDate: expirationDate,
-    CVV: CVV
+    cvv: cvv
   })
     .then(() => {
       response.status(status.CREATED).send()
@@ -68,7 +68,7 @@ exports.update = (request, response, next) => {
   const cardNumber = request.body.cardNumber
   const cardHolderName = request.body.cardHolderName
   const expirationDate = request.body.expirationDate
-  const CVV = request.body.CVV
+  const cvv = request.body.cvv
 
   Transaction.findById(id)
     .then(transaction => {
@@ -81,7 +81,7 @@ exports.update = (request, response, next) => {
             cardNumber: cardNumber,
             cardHolderName: cardHolderName,
             expirationDate: expirationDate,
-            CVV: CVV
+            cvv: cvv
           },
           { where: { id: id } }
         )
