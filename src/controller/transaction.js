@@ -7,6 +7,7 @@ exports.findById = (request, response, next) => {
   Transaction.findById(id)
     .then(transaction => {
       if (transaction) {
+        transaction.cardNumber = transaction.cardNumber.substr(-4) 
         response.status(status.OK).send(transaction)
       } else {
         response.status(status.NOT_FOUND).send()
@@ -30,6 +31,10 @@ exports.findAll = (request, response, next) => {
 
   Transaction.findAll({ limit: limite, offset: page })
     .then(transactions => {
+      transactions.forEach(
+        function(transaction) { 
+          transaction.cardNumber = transaction.cardNumber.substr(-4) 
+        })
       response.send(transactions)
     })
     .catch(error => next(error))
