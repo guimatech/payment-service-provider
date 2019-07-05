@@ -5,5 +5,4 @@ if [[ ! -e $dir ]]; then
     npm install
 fi
 docker-compose down
-docker-compose build
-docker-compose up
+docker-compose up --build
