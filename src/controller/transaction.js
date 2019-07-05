@@ -1,7 +1,8 @@
 const Transaction = require('../model/transaction').Transaction
 const handleSensitiveInformation = require('../model/transaction').handleSensitiveInformation
-const statusHttp = require('http-status')
+const httpStatus = require('http-status')
 const createPayableFromTransaction = require('../controller/payable').createPayableFromTransaction
+const httpUtil = require('../util/http.js')
 const sequelize = require('../database/database')
 
 exports.findByPk = (request, response, next) => {
@@ -10,28 +11,16 @@ exports.findByPk = (request, response, next) => {
   Transaction.findByPk(id)
     .then(transaction => {
       if (transaction) {
-        response.status(statusHttp.OK).send(transaction)
+        response.status(httpStatus.OK).send(transaction)
       } else {
-        response.status(statusHttp.NOT_FOUND).send()
+        response.status(httpStatus.NOT_FOUND).send()
       }
     })
     .catch(error => next(error))
 }
 
 exports.findAll = (request, response, next) => {
-  let limite = parseInt(request.query.limite || 0)
-  let page = parseInt(request.query.page || 0)
-
-  if (!Number.isInteger(limite) || !Number.isInteger(page)) {
-    response.status(statusHttp.BAD_REQUEST).send()
-  }
-
-  const ITEMS_PER_PAGE = 10
-
-  limite = limite > ITEMS_PER_PAGE || limite <= 0 ? ITEMS_PER_PAGE : limite
-  page = page <= 0 ? 0 : page * limite
-
-  Transaction.findAll({ limit: limite, offset: page })
+  Transaction.findAll(httpUtil.treatPageAndLimit(request, response))
     .then(transactions => {
       response.send(transactions)
     })
@@ -61,7 +50,7 @@ exports.create = (request, response, next) => {
     })
   })
   .then(() => {
-    response.status(statusHttp.CREATED).send()
+    response.status(httpStatus.CREATED).send()
   })
   .catch(error => next(error))
 }

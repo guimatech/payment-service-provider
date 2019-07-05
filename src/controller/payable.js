@@ -1,5 +1,8 @@
 const Payable = require('../model/payable').Payable
-const status = require('http-status')
+const httpStatus = require('http-status')
+const httpUtil = require('../util/http.js')
+const sequelize = require('../database/database')
+const eStatusPayable = require('../model/payable').eStatusPayable
 const getPayableFromTransaction = require('../model/payable').getPayableFromTransaction
 
 function PayableException(message) {
@@ -13,28 +16,16 @@ exports.findByPk = (request, response, next) => {
   Payable.findByPk(id)
     .then(payable => {
       if (payable) {
-        response.status(status.OK).send(payable)
+        response.status(httpStatus.OK).send(payable)
       } else {
-        response.status(status.NOT_FOUND).send()
+        response.status(httpStatus.NOT_FOUND).send()
       }
     })
     .catch(error => next(error))
 }
 
 exports.findAll = (request, response, next) => {
-  let limite = parseInt(request.query.limite || 0)
-  let page = parseInt(request.query.page || 0)
-
-  if (!Number.isInteger(limite) || !Number.isInteger(page)) {
-    response.status(status.BAD_REQUEST).send()
-  }
-
-  const ITEMS_PER_PAGE = 10
-
-  limite = limite > ITEMS_PER_PAGE || limite <= 0 ? ITEMS_PER_PAGE : limite
-  page = page <= 0 ? 0 : page * limite
-
-  Payable.findAll({ limit: limite, offset: page })
+  Payable.findAll(httpUtil.treatPageAndLimit(request, response))
     .then(payables => {
       response.send(payables)
     })
@@ -48,4 +39,30 @@ exports.createPayableFromTransaction = (transaction) => {
   .catch((error) => {
     throw new PayableException(error);
   })
+}
+
+exports.findBalance = (request, response, next) => {
+  Payable.findAll({
+    attributes: [[sequelize.fn('SUM', sequelize.col('value')), 'value']],
+    where: {
+      status: eStatusPayable.PAID
+    }
+  })
+    .then(available => {
+      Payable.findAll({
+        attributes: [[sequelize.fn('SUM', sequelize.col('value')), 'value']],
+        where: {
+          status: eStatusPayable.WAITING_FUNDS
+        }
+      })
+        .then(waiting_funds => {
+          const balance = { 
+            "available": available[0].value || 0,
+            "waiting_funds": waiting_funds[0].value || 0
+          }
+          response.send(balance)
+        })
+        .catch(error => next(error))
+    })
+    .catch(error => next(error))
 }

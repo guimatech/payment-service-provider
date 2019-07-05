@@ -16,7 +16,7 @@ GET /api/transactions
 
 GET /api/transactions/1
 
-GET /api/transactions/?limite=10&page=1
+GET /api/transactions/?limite=10&page=0
 
 GET /api/transactions/?limite=1&page='1=1'
 
@@ -27,6 +27,6 @@ GET /api/payables
 
 GET /api/payables/1
 
-GET /api/payables/?limite=10&page=1
+GET /api/payables/?limite=10&page=0
 
 GET /api/payables/?limite=1&page='1=1'
