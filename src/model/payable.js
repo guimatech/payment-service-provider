@@ -1,12 +1,18 @@
 const Sequelize = require('sequelize')
 const sequelize = require('../database/database')
 const dateUtil = require('../util/date')
+const mathUtil = require('../util/math')
 const Transaction = require('./transaction').Transaction
-const isPaymentOnCredit = require('./transaction').isPaymentOnCredit
+const isPaymentOnDebit = require('./transaction').isPaymentOnDebit
 
 const eStatusPayable = {
   PAID: 'paid',
   WAITING_FUNDS: 'waiting_funds'
+}
+
+const ePercentFee = {
+  DEBIT_CARD: 3,
+  CREDIT_CARD: 5
 }
 
 const Payable = sequelize.define('payable', {
@@ -36,24 +42,25 @@ const Payable = sequelize.define('payable', {
 Payable.belongsTo(Transaction)
 
 const getPayableFromTransaction = (transaction) => {
-  let value = transaction.value
-  let status = eStatusPayable.PAID
-  let paymentDate = dateUtil.formatDateToPostgres(new Date())
-
-  if (isPaymentOnCredit(transaction.paymentMethod)) {
-    value = transaction.value
-    status = eStatusPayable.WAITING_FUNDS
-    paymentDate = dateUtil.formatDateToPostgres(
-                    dateUtil.addDays(new Date(), 30)
-                  )
+  if (isPaymentOnDebit(transaction.paymentMethod)) {
+    return {
+      value: discountProcessingRate(transaction.value, ePercentFee.DEBIT_CARD),
+      status: eStatusPayable.PAID,
+      paymentDate: dateUtil.formatDateToPostgres(new Date()),
+      transactionId: transaction.id
+    }
+  } else {
+    return {
+      value: discountProcessingRate(transaction.value, ePercentFee.CREDIT_CARD),
+      status: eStatusPayable.WAITING_FUNDS,
+      paymentDate: dateUtil.formatDateToPostgres(dateUtil.addDays(new Date(), 30)),
+      transactionId: transaction.id
+    }
   }
+}
 
-  return {
-    value: value,
-    status: status,
-    paymentDate: paymentDate,
-    transactionId: transaction.id
-  }
+const discountProcessingRate = (value, fee) => {
+  return value - mathUtil.getValueDiscount(value, fee)
 }
 
 module.exports = { 
