@@ -7,4 +7,6 @@ router.get('/payables/:id', controller.findByPk);
 
 router.get('/payables', controller.findAll);
 
+router.get('/payablesBalance', controller.findBalance);
+
 module.exports = router;
