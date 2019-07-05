@@ -5,6 +5,7 @@ services:
     image: postgres
     restart: always
     environment:
+      POSTGRES_DB: psp
       POSTGRES_PASSWORD: mypassword
     volumes:
       - ./postgres:/var/lib/postgresql/data

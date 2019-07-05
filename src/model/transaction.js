@@ -1,12 +1,17 @@
 const Sequelize = require('sequelize')
 const sequelize = require('../database/database')
 
+const ePaymentMethod = {
+  DEBIT_CARD: 'debit_card',
+  CREDIT_CARD: 'credit_card'
+}
+
 const Transaction = sequelize.define('transaction', {
   id: {
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
-    type: Sequelize.BIGINT
+    type: Sequelize.INTEGER
   },
   value: {
     allowNull: false,
@@ -21,13 +26,16 @@ const Transaction = sequelize.define('transaction', {
   },
   paymentMethod: {
     allowNull: false,
-    type: Sequelize.ENUM('debit_card', 'credit_card')
+    type: Sequelize.ENUM(
+      ePaymentMethod.DEBIT_CARD, 
+      ePaymentMethod.CREDIT_CARD
+    )
   },
   cardNumber: {
     allowNull: false,
-    type: Sequelize.STRING(19),
+    type: Sequelize.STRING(4),
     validate: {
-      len: [14, 19]
+      len: [4, 4]
     }
   },
   cardHolderName: {
@@ -50,4 +58,21 @@ const Transaction = sequelize.define('transaction', {
   }
 })
 
-module.exports = Transaction
+const handleSensitiveInformation = (cardNumber) => {
+  return cardNumber.substr(-4)
+}
+
+const isPaymentOnDebit = (paymentMethod) => {
+  return (paymentMethod == ePaymentMethod.DEBIT_CARD)
+}
+
+const isPaymentOnCredit = (paymentMethod) => {
+  return (paymentMethod == ePaymentMethod.CREDIT_CARD)
+}
+
+module.exports =  {
+  Transaction,
+  handleSensitiveInformation,
+  isPaymentOnDebit,
+  isPaymentOnCredit
+}

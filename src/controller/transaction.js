@@ -1,16 +1,18 @@
-const Transaction = require('../model/transaction')
-const status = require('http-status')
+const Transaction = require('../model/transaction').Transaction
+const handleSensitiveInformation = require('../model/transaction').handleSensitiveInformation
+const statusHttp = require('http-status')
+const createPayableFromTransaction = require('../controller/payable').createPayableFromTransaction
+const sequelize = require('../database/database')
 
-exports.findById = (request, response, next) => {
+exports.findByPk = (request, response, next) => {
   const id = request.params.id
 
-  Transaction.findById(id)
+  Transaction.findByPk(id)
     .then(transaction => {
       if (transaction) {
-        transaction.cardNumber = transaction.cardNumber.substr(-4) 
-        response.status(status.OK).send(transaction)
+        response.status(statusHttp.OK).send(transaction)
       } else {
-        response.status(status.NOT_FOUND).send()
+        response.status(statusHttp.NOT_FOUND).send()
       }
     })
     .catch(error => next(error))
@@ -21,7 +23,7 @@ exports.findAll = (request, response, next) => {
   let page = parseInt(request.query.page || 0)
 
   if (!Number.isInteger(limite) || !Number.isInteger(page)) {
-    response.status(status.BAD_REQUEST).send()
+    response.status(statusHttp.BAD_REQUEST).send()
   }
 
   const ITEMS_PER_PAGE = 10
@@ -31,10 +33,6 @@ exports.findAll = (request, response, next) => {
 
   Transaction.findAll({ limit: limite, offset: page })
     .then(transactions => {
-      transactions.forEach(
-        function(transaction) { 
-          transaction.cardNumber = transaction.cardNumber.substr(-4) 
-        })
       response.send(transactions)
     })
     .catch(error => next(error))
@@ -48,20 +46,24 @@ exports.create = (request, response, next) => {
   const cardHolderName = request.body.cardHolderName
   const expirationDate = request.body.expirationDate
   const cvv = request.body.cvv
-
-  Transaction.create({
-    value: value,
-    description: description,
-    paymentMethod: paymentMethod,
-    cardNumber: cardNumber,
-    cardHolderName: cardHolderName,
-    expirationDate: expirationDate,
-    cvv: cvv
-  })
-    .then(() => {
-      response.status(status.CREATED).send()
+  
+  sequelize.transaction(() => {
+    Transaction.create({
+      value: value,
+      description: description,
+      paymentMethod: paymentMethod,
+      cardNumber: handleSensitiveInformation(cardNumber),
+      cardHolderName: cardHolderName,
+      expirationDate: expirationDate,
+      cvv: cvv
+    }).then((transaction) => {
+      createPayableFromTransaction(transaction)
     })
-    .catch(error => next(error))
+  })
+  .then(() => {
+    response.status(statusHttp.CREATED).send()
+  })
+  .catch(error => next(error))
 }
 
 exports.update = (request, response, next) => {
@@ -75,7 +77,7 @@ exports.update = (request, response, next) => {
   const expirationDate = request.body.expirationDate
   const cvv = request.body.cvv
 
-  Transaction.findById(id)
+  Transaction.findByPk(id)
     .then(transaction => {
       if (transaction) {
         Transaction.update(
@@ -83,7 +85,7 @@ exports.update = (request, response, next) => {
             value: value,
             description: description,
             paymentMethod: paymentMethod,
-            cardNumber: cardNumber,
+            cardNumber: handleSensitiveInformation(cardNumber),
             cardHolderName: cardHolderName,
             expirationDate: expirationDate,
             cvv: cvv
@@ -91,11 +93,11 @@ exports.update = (request, response, next) => {
           { where: { id: id } }
         )
           .then(() => {
-            response.status(status.OK).send()
+            response.status(statusHttp.OK).send()
           })
           .catch(error => next(error))
       } else {
-        response.status(status.NOT_FOUND).send()
+        response.status(statusHttp.NOT_FOUND).send()
       }
     })
     .catch(error => next(error))
@@ -104,18 +106,18 @@ exports.update = (request, response, next) => {
 exports.delete = (request, response, next) => {
   const id = request.params.id
 
-  Transaction.findById(id)
+  Transaction.findByPk(id)
     .then(transaction => {
       if (transaction) {
         Transaction.destroy({
           where: { id: id }
         })
           .then(() => {
-            response.status(status.OK).send()
+            response.status(statusHttp.OK).send()
           })
           .catch(error => next(error))
       } else {
-        response.status(status.NOT_FOUND).send()
+        response.status(statusHttp.NOT_FOUND).send()
       }
     })
     .catch(error => next(error))

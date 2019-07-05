@@ -3,7 +3,7 @@ const controller = require('../controller/transaction');
 
 const router = express.Router();
 
-router.get('/transactions/:id', controller.findById);
+router.get('/transactions/:id', controller.findByPk);
 
 router.get('/transactions', controller.findAll);
 

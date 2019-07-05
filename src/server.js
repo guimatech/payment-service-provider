@@ -2,6 +2,7 @@ const http = require('http')
 const express = require('express')
 const status = require('http-status')
 const transactionsRoute = require('./routes/transactions')
+const payablesRoute = require('./routes/payable')
 const sequelize = require('./database/database')
 
 const isProduction = process.env.NODE_ENV === 'production'
@@ -11,6 +12,7 @@ const app = express()
 app.use(express.json())
 
 app.use('/api', transactionsRoute)
+app.use('/api', payablesRoute)
 
 app.use((request, response, next) => {
   response.status(status.NOT_FOUND).send()
