@@ -1,16 +1,16 @@
 # O que é esse projeto?
 
-Versão simplificada de um Payment Service Provider (PSP) como o Pagar.me, esse é o projeto de uma API RESTful feita em Node + Express e que persiste transações.
+Versão simplificada de um Payment Service Provider (PSP) como o Pagar.me, esse é o projeto de uma API RESTful feita em [Node](https://nodejs.org/en/) + [Express](https://expressjs.com) e que persiste transações.
 
 # Instalação e execução
 
-Existem duas maneiras de execução a primeira é utilizando o Docker, com o mesmo executando na maquina, utilize o seguinte comando:
+Existem duas maneiras de execução a primeira é utilizando o [Docker](https://docs.docker.com/docker-for-windows/install/), com o mesmo executando na maquina, utilize o seguinte comando:
 
 ```shell
 ./script/install.sh
 ```
 
-A outra maneira é possuindo o banco de dados PostgreSQL intalado em uma maquina da rede e configurar devidamente os parâmentros/variáveis de ambiente, por exemplo:
+A outra maneira é possuindo o banco de dados [PostgreSQL](https://www.postgresql.org/download/) intalado em uma maquina da rede e configurar devidamente os parâmentros/variáveis de ambiente, por exemplo:
 
 ```shell
 NODE_ENV=production DB_HOST=localhost DB_PORT=5432 DB_USER=max DB_PASS=s3cr3t DB_NAME=example HOST=localhost PORT=3000 npm start
@@ -18,7 +18,7 @@ NODE_ENV=production DB_HOST=localhost DB_PORT=5432 DB_USER=max DB_PASS=s3cr3t DB
 
 # Endpoints
 
-Para testes da API é necessário que uma aplicação cliente que faça requisições aos *endpoints* da ferramenta ou mesmo uma aplicação como o Postman (uma ferramenta que tem como objetivo testar serviços RESTful (Web APIs) por meio do envio de requisições HTTP e da análise do seu retorno.). 
+Para testes da API é necessário que uma aplicação cliente que faça requisições aos *endpoints* da ferramenta ou mesmo uma aplicação como o [Postman](https://www.getpostman.com/downloads/) (uma ferramenta que tem como objetivo testar serviços RESTful (Web APIs) por meio do envio de requisições HTTP e da análise do seu retorno.). 
 
 | Requisições                                  | Descrição                                                    |
 | -------------------------------------------- | ------------------------------------------------------------ |
