@@ -46,4 +46,4 @@ Exemplo de JSON para requisição POST `/api/transactions`:
 }
 ```
 
-{c:#B81365}**Importante**{/c}: O campo `"paymentMethod"` (Método de pagamento) é um só aceita os valores: `debit_card` ou `credit_card`.
+**Importante**: O campo `"paymentMethod"` (Método de pagamento) é um só aceita os valores: `debit_card` ou `credit_card`.
