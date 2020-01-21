@@ -1,3 +1,5 @@
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/guimaraes-lucas/payment-service-provider) 
+
 # O que é esse projeto?
 
 Versão simplificada de um Payment Service Provider (PSP) como o Pagar.me, esse é o projeto de uma API RESTful feita em [Node](https://nodejs.org/en/) + [Express](https://expressjs.com) e que persiste transações.
