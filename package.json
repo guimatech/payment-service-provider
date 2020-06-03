@@ -25,6 +25,6 @@
     "http-status": "^1.3.2",
     "pg": "^7.11.0",
     "pg-hstore": "^2.3.3",
-    "sequelize": "^5.9.0"
+    "sequelize": "^5.15.1"
   }
 }
