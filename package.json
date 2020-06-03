@@ -14,7 +14,23 @@
     "type": "git",
     "url": "git+https://github.com/guimaraes-lucas/payment-service-provider.git"
   },
-  "author": "Lucas Guimarães <lucasasafe@outlook.com.br>",
+  "keywords": [
+    "NodeJs",
+    "Typescript",
+    "TDD",
+    "Clean",
+    "Architecture",
+    "SOLID",
+    "clean",
+    "code",
+    "psp",
+    "pagarme",
+    "payment-service-provider",
+    "sequelize",
+    "api",
+    "express"
+  ],
+  "author": "Lucas dos Santos Guimarães <guimaraes-lucas@outlook.com.br>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/guimaraes-lucas/payment-service-provider/issues"
