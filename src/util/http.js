@@ -1,11 +1,13 @@
 const httpStatus = require('http-status')
 
-const treatPageAndLimit = (request, response) => {
-  let limite = parseInt(request.query.limite || 0)
-  let page = parseInt(request.query.page || 0)
-  
+function HttpException(message) {
+  this.message = message
+  this.name = "httpException"
+}
+
+const treatPageAndLimit = (limite, page) => {
   if (!Number.isInteger(limite) || !Number.isInteger(page)) {
-    response.status(httpStatus.BAD_REQUEST).send()
+    throw new HttpException()
   }
   
   const ITEMS_PER_PAGE = 10

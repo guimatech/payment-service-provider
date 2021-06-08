@@ -1,40 +1,37 @@
-const Payable = require('../service/payable').Payable
+const Payable = require('../model/payable').Payable
 const httpStatus = require('http-status')
 const httpUtil = require('../util/http.js')
 const sequelize = require('../database/database')
-const getPayableFromTransaction = require('../service/payable').getPayableFromTransaction
+const eStatusPayable = require('../model/payable').eStatusPayable
+const getPayableFromTransaction = require('../model/payable').getPayableFromTransaction
 
-function PayableException(message) {
+function PayableServiceException(message) {
   this.message = message;
   this.name = "PayableException";
 }
 
-exports.findByPk = (request, response, next) => {
-  try {
-    const payable = Payable.findByPk(request.params.id)
-    if (!payable) {
-      response.status(httpStatus.NOT_FOUND).send()
-      return
-    }
-
-    response.status(httpStatus.OK).send(payable)
-  } catch (error) {
-    next(error)
-  }
+exports.findByPk = (id) => {
+  Payable.findByPk(id)
+    .then(payable => payable)
+    .catch(error => {
+      throw new PayableServiceException("Error searching Payment.")
+    })
 }
 
 exports.findAll = (request, response, next) => {
   Payable.findAll(httpUtil.treatPageAndLimit(request.query.limite, request.query.page))
     .then(payables => response.send(payables))
-    .catch(error => response.status(httpStatus.BAD_REQUEST).send())
+    .catch(error => {
+      throw new PayableServiceException("Error looking up Payments.")
+    })
 }
 
 exports.createPayableFromTransaction = (transaction) => {
   Payable.create(
     getPayableFromTransaction(transaction)
   )
-  .catch((error) => {
-    throw new PayableException(error);
+  .catch(error => {
+    throw new PayableServiceException("Error creating Payments.")
   })
 }
 
