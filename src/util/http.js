@@ -5,17 +5,17 @@ function HttpException(message) {
   this.name = "httpException"
 }
 
-const treatPageAndLimit = (limite, page) => {
-  if (!Number.isInteger(limite) || !Number.isInteger(page)) {
+const treatPageAndLimit = (limit, page) => {
+  if (!Number.isInteger(limit) || !Number.isInteger(page)) {
     throw new HttpException()
   }
   
   const ITEMS_PER_PAGE = 10
   
-  limite = limite > ITEMS_PER_PAGE || limite <= 0 ? ITEMS_PER_PAGE : limite
-  page = page <= 0 ? 0 : page * limite
+  limit = limit > ITEMS_PER_PAGE || limit <= 0 ? ITEMS_PER_PAGE : limit
+  page = page <= 0 ? 0 : page * limit
     
-  return { limit: limite, offset: page }
+  return { limit: limit, offset: page }
 }
 
 module.exports = {

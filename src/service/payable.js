@@ -10,7 +10,7 @@ function PayableServiceException(message) {
   this.name = "PayableException";
 }
 
-exports.findByPk = (id) => {
+exports.findByPk = id => {
   Payable.findByPk(id)
     .then(payable => payable)
     .catch(error => {
@@ -18,15 +18,15 @@ exports.findByPk = (id) => {
     })
 }
 
-exports.findAll = (request, response, next) => {
-  Payable.findAll(httpUtil.treatPageAndLimit(request.query.limite, request.query.page))
-    .then(payables => response.send(payables))
+exports.findAll = (limit, page) => {
+  Payable.findAll(httpUtil.treatPageAndLimit(limit, page))
+    .then(payables => payables)
     .catch(error => {
       throw new PayableServiceException("Error looking up Payments.")
     })
 }
 
-exports.createPayableFromTransaction = (transaction) => {
+exports.createPayableFromTransaction = transaction => {
   Payable.create(
     getPayableFromTransaction(transaction)
   )

@@ -5,52 +5,43 @@ const createPayableFromTransaction = require('../controller/payable').createPaya
 const httpUtil = require('../util/http.js')
 const sequelize = require('../database/database')
 
-exports.findByPk = (request, response, next) => {
-  const id = request.params.id
+function TransactionServiceException(message) {
+  this.message = message;
+  this.name = "PayableException";
+}
 
+exports.findByPk = id => {
   Transaction.findByPk(id)
-    .then(transaction => {
-      if (transaction) {
-        response.status(httpStatus.OK).send(transaction)
-      } else {
-        response.status(httpStatus.NOT_FOUND).send()
-      }
+    .then(transaction => transaction)
+    .catch(error => {
+      throw new TransactionServiceException('Error searching Transaction.');
     })
-    .catch(error => next(error))
 }
 
-exports.findAll = (request, response, next) => {
-  Transaction.findAll(httpUtil.treatPageAndLimit(request, response))
-    .then(transactions => {
-      response.send(transactions)
+exports.findAll = (limit, page) => {
+  Transaction.findAll(httpUtil.treatPageAndLimit(limit, page))
+    .then(transactions => transactions)
+    .catch(error => {
+      throw new TransactionServiceException('Error looking up Transactions.');
     })
-    .catch(error => next(error))
 }
 
-exports.create = (request, response, next) => {
-  const value = request.body.value
-  const description = request.body.description
-  const paymentMethod = request.body.paymentMethod
-  const cardNumber = request.body.cardNumber
-  const cardHolderName = request.body.cardHolderName
-  const expirationDate = request.body.expirationDate
-  const cvv = request.body.cvv
-  
+exports.create = transaction => {
   sequelize.transaction(() => {
     Transaction.create({
-      value: value,
-      description: description,
-      paymentMethod: paymentMethod,
-      cardNumber: handleSensitiveInformation(cardNumber),
-      cardHolderName: cardHolderName,
-      expirationDate: expirationDate,
-      cvv: cvv
+      value: transaction.value,
+      description: transaction.description,
+      paymentMethod: transaction.paymentMethod,
+      cardNumber: handleSensitiveInformation(transaction.cardNumber),
+      cardHolderName: transaction.cardHolderName,
+      expirationDate: transaction.expirationDate,
+      cvv: transaction.cvv
     }).then((transaction) => {
       createPayableFromTransaction(transaction)
     })
   })
-  .then(() => {
-    response.status(httpStatus.CREATED).send()
+  .then(() => transaction)
+  .catch(error => {
+    throw new TransactionServiceException('Error create Transaction.');
   })
-  .catch(error => next(error))
 }
