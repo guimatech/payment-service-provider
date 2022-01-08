@@ -15,22 +15,22 @@ app.use('/api', transactionsRoute)
 app.use('/api', payablesRoute)
 
 app.use((request, response, next) => {
-  response.status(status.NOT_FOUND).send()
+    response.status(status.NOT_FOUND).send()
 })
 
-app.use((error, request, response, next) => {
-  response.status(status.INTERNAL_SERVER_ERROR).json({ error })
-})
+// app.use((error, request, response, next) => {
+//   response.status(status.INTERNAL_SERVER_ERROR).json({ error })
+// })
 
 sequelize.sync({ force: !isProduction }).then(() => {
-  const port = process.env.PORT || 3000
-  const hostname = process.env.HOST || '0.0.0.0'
+    const port = process.env.PORT || 3000
+    const hostname = process.env.HOST || '0.0.0.0'
 
-  app.set('port', port)
+    app.set('port', port)
 
-  const server = http.createServer(app)
+    const server = http.createServer(app)
 
-  server.listen(port, hostname, () => {
-    console.log(`Server running at http://${hostname}:${port}/`);
-  })
+    server.listen(port, hostname, () => {
+        console.log(`Server running at http://${hostname}:${port}/`);
+    })
 })

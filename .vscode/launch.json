@@ -1,14 +1,16 @@
 {
-  // Use o IntelliSense para aprender sobre possíveis atributos.
-  // Passe o mouse para ver as descrições dos atributos existentes.
-  // Para obter mais informações, visite: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Docker: Attach to Node",
       "type": "node",
-      "request": "launch",
-      "name": "Launch Program",
-      "program": "${workspaceFolder}/src/server.js"
+      "request": "attach",
+      "restart": true,
+      "port": 9229,
+      "address": "localhost",
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "/usr/src/app",
+      "protocol": "inspector"
     }
   ]
 }

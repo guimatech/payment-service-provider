@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 
 services:
   db:
@@ -10,12 +10,14 @@ services:
     volumes:
       - ./postgres:/var/lib/postgresql/data
     ports:
-      - 5432
+      - 5432:5432
   server:
     build: .
     volumes:
       - ./:/usr/src/app
     ports:
       - 3000:3000
+      - 5678:5678
+      - 9229:9229
     depends_on:
       - db

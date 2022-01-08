@@ -1,0 +1,45 @@
+# Cria uma transação e seu devido recebível.
+POST http://0.0.0.0:3000/api/transactions HTTP/1.1
+content-type: application/json
+
+{
+  "value": 850.5,
+  "description": "Smartband XYZ 3.0",
+  "paymentMethod": "credit_card",
+  "cardNumber": "1234567812345678",
+  "cardHolderName": "Fulano de Tal da Silva",
+  "expirationDate": "2021-01-01",
+  "cvv": "123"
+}
+
+###
+# Retorna uma lista com todas as transações criadas.
+GET http://0.0.0.0:3000/api/transactions  HTTP/1.1
+
+###
+# Retorna uma transção específica de acordo com id passado.
+GET http://0.0.0.0:3000/api/transactions/1 HTTP/1.1
+
+###
+# Retorna uma lista com limite de 10 de transações por página.
+GET http://0.0.0.0:3000/api/transactions/?limite=10&page=0 HTTP/1.1
+
+###
+# Retorna um erro em caso de tentativa de SQLInjection.
+GET http://0.0.0.0:3000/api/transactions/?limite=1&page='1=1' HTTP/1.1
+
+###
+# Retorna uma lista com todos os recebíveis criados.
+GET http://0.0.0.0:3000/api/payables HTTP/1.1
+
+###
+# Retorna um recebível específico de acordo com id passado.
+GET http://0.0.0.0:3000/api/payables/1 HTTP/1.1
+
+###
+# Retorna uma lista com limite de 10 de recebíveis por página.
+GET http://0.0.0.0:3000/api/payables/?limite=10&page=0 HTTP/1.1
+
+###
+# Retorna um erro em caso de tentativa de SQLInjection.
+GET http://0.0.0.0:3000/api/payables/?limite=1&page='1=1' HTTP/1.1
