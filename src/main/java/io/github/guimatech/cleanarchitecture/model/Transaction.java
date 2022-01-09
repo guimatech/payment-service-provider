@@ -1,4 +1,7 @@
 package io.github.guimatech.cleanarchitecture.model;
 
-public class Transaction {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Transaction implements Serializable {
 }

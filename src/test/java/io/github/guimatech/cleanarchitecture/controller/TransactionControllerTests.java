@@ -1,26 +1,40 @@
 package io.github.guimatech.cleanarchitecture.controller;
 
+import io.github.guimatech.cleanarchitecture.model.Transaction;
+import io.github.guimatech.cleanarchitecture.service.TransactionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import java.util.ArrayList;
+import java.util.List;
 
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+import static io.github.guimatech.cleanarchitecture.util.ConstantUtil.PATH_TRANSACTION;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest
+@AutoConfigureMockMvc
 public class TransactionControllerTests {
 
-    @LocalServerPort
-    private int port;
-
     @Autowired
-    private TestRestTemplate restTemplate;
+    private MockMvc mockMvc;
+
+    @MockBean
+    private TransactionService service;
 
     @Test
-    public void greetingShouldReturnDefaultMessage() throws Exception {
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/transactions",
-                String.class)).contains("Hello, World");
+    public void shouldReturnAllTransactions() throws Exception {
+        when(service.findAll()).thenReturn(List.of(new Transaction()));
+
+        this.mockMvc.perform(get(PATH_TRANSACTION))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(content().json("[{}]"));
     }
 }
