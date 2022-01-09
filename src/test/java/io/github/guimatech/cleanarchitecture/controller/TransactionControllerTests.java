@@ -37,4 +37,13 @@ public class TransactionControllerTests {
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(content().json("[{}]"));
     }
+
+    @Test
+    public void shouldReturnOneTransaction() throws Exception {
+        when(service.findById(1L)).thenReturn(new Transaction());
+
+        this.mockMvc.perform(get(PATH_TRANSACTION + "/1"))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(content().json("{}"));
+    }
 }

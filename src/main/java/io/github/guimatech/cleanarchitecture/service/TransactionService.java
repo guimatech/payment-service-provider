@@ -11,4 +11,8 @@ public class TransactionService {
     public List<Transaction> findAll() {
         return new ArrayList<>();
     }
+
+    public Transaction findById(Long id) {
+        return new Transaction();
+    }
 }
