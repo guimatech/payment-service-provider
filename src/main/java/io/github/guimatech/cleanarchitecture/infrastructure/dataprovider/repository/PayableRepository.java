@@ -1,6 +1,6 @@
-package io.github.guimatech.cleanarchitecture.repository;
+package io.github.guimatech.cleanarchitecture.infrastructure.dataprovider.repository;
 
-import io.github.guimatech.cleanarchitecture.model.Payable;
+import io.github.guimatech.cleanarchitecture.domain.model.Payable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;

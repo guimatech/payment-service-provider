@@ -1,9 +1,9 @@
 package io.github.guimatech.cleanarchitecture.mock;
 
-import io.github.guimatech.cleanarchitecture.model.Transaction;
+import io.github.guimatech.cleanarchitecture.domain.model.Transaction;
 
-import static io.github.guimatech.cleanarchitecture.model.PaymentMethod.CREDIT_CARD;
-import static io.github.guimatech.cleanarchitecture.model.PaymentMethod.DEBIT_CARD;
+import static io.github.guimatech.cleanarchitecture.domain.model.PaymentMethod.CREDIT_CARD;
+import static io.github.guimatech.cleanarchitecture.domain.model.PaymentMethod.DEBIT_CARD;
 
 public class TransactionMock {
 

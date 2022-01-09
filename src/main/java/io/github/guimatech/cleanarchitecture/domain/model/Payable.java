@@ -1,4 +1,4 @@
-package io.github.guimatech.cleanarchitecture.model;
+package io.github.guimatech.cleanarchitecture.domain.model;
 
 import io.github.guimatech.cleanarchitecture.util.MathUtil;
 import lombok.*;
@@ -9,10 +9,10 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import static io.github.guimatech.cleanarchitecture.model.PaymentMethod.CREDIT_CARD;
-import static io.github.guimatech.cleanarchitecture.model.PaymentMethod.DEBIT_CARD;
-import static io.github.guimatech.cleanarchitecture.model.StatusPayable.PAID;
-import static io.github.guimatech.cleanarchitecture.model.StatusPayable.WAITING_FUNDS;
+import static io.github.guimatech.cleanarchitecture.domain.model.PaymentMethod.CREDIT_CARD;
+import static io.github.guimatech.cleanarchitecture.domain.model.PaymentMethod.DEBIT_CARD;
+import static io.github.guimatech.cleanarchitecture.domain.model.StatusPayable.PAID;
+import static io.github.guimatech.cleanarchitecture.domain.model.StatusPayable.WAITING_FUNDS;
 
 @Data
 @Table

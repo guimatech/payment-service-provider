@@ -1,6 +1,6 @@
 package io.github.guimatech.cleanarchitecture.controller;
 
-import io.github.guimatech.cleanarchitecture.service.PayableService;
+import io.github.guimatech.cleanarchitecture.application.service.PayableService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

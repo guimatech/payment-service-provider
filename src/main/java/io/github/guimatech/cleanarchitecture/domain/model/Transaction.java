@@ -1,4 +1,4 @@
-package io.github.guimatech.cleanarchitecture.model;
+package io.github.guimatech.cleanarchitecture.domain.model;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

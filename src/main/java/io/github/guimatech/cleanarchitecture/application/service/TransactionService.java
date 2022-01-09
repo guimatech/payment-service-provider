@@ -1,8 +1,8 @@
-package io.github.guimatech.cleanarchitecture.service;
+package io.github.guimatech.cleanarchitecture.application.service;
 
-import io.github.guimatech.cleanarchitecture.model.Payable;
-import io.github.guimatech.cleanarchitecture.model.Transaction;
-import io.github.guimatech.cleanarchitecture.repository.TransactionRepository;
+import io.github.guimatech.cleanarchitecture.domain.model.Payable;
+import io.github.guimatech.cleanarchitecture.domain.model.Transaction;
+import io.github.guimatech.cleanarchitecture.infrastructure.dataprovider.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

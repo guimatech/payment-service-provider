@@ -1,15 +1,12 @@
-package io.github.guimatech.cleanarchitecture.controller;
+package io.github.guimatech.cleanarchitecture.api.controller;
 
-import io.github.guimatech.cleanarchitecture.model.Payable;
-import io.github.guimatech.cleanarchitecture.model.PaymentMethod;
-import io.github.guimatech.cleanarchitecture.model.Transaction;
-import io.github.guimatech.cleanarchitecture.dto.TransactionDTO;
-import io.github.guimatech.cleanarchitecture.service.TransactionService;
+import io.github.guimatech.cleanarchitecture.domain.model.Transaction;
+import io.github.guimatech.cleanarchitecture.domain.dto.TransactionDTO;
+import io.github.guimatech.cleanarchitecture.application.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static io.github.guimatech.cleanarchitecture.util.ConstantUtil.PATH_TRANSACTION;

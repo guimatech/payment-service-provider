@@ -1,4 +1,4 @@
-package io.github.guimatech.cleanarchitecture.configuration;
+package io.github.guimatech.cleanarchitecture.infrastructure.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;

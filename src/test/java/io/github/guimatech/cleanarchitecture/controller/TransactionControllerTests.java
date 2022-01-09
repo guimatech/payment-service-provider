@@ -1,7 +1,6 @@
 package io.github.guimatech.cleanarchitecture.controller;
 
-import io.github.guimatech.cleanarchitecture.model.Transaction;
-import io.github.guimatech.cleanarchitecture.service.TransactionService;
+import io.github.guimatech.cleanarchitecture.application.service.TransactionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

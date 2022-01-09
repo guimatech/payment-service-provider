@@ -1,13 +1,11 @@
-package io.github.guimatech.cleanarchitecture.controller;
+package io.github.guimatech.cleanarchitecture.api.controller;
 
-import io.github.guimatech.cleanarchitecture.model.Balance;
-import io.github.guimatech.cleanarchitecture.model.Payable;
-import io.github.guimatech.cleanarchitecture.service.PayableService;
+import io.github.guimatech.cleanarchitecture.domain.model.Balance;
+import io.github.guimatech.cleanarchitecture.domain.model.Payable;
+import io.github.guimatech.cleanarchitecture.application.service.PayableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.HttpMediaTypeException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

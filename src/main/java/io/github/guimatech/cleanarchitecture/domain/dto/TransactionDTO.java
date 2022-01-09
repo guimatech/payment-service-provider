@@ -1,6 +1,6 @@
-package io.github.guimatech.cleanarchitecture.dto;
+package io.github.guimatech.cleanarchitecture.domain.dto;
 
-import io.github.guimatech.cleanarchitecture.model.PaymentMethod;
+import io.github.guimatech.cleanarchitecture.domain.model.PaymentMethod;
 import lombok.Getter;
 
 import java.io.Serializable;
