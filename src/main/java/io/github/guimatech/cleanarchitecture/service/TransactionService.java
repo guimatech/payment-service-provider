@@ -1,5 +1,6 @@
 package io.github.guimatech.cleanarchitecture.service;
 
+import io.github.guimatech.cleanarchitecture.model.Payable;
 import io.github.guimatech.cleanarchitecture.model.Transaction;
 import io.github.guimatech.cleanarchitecture.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class TransactionService {
     }
 
     public Transaction create(Transaction transaction) {
+        transaction.setPayable(Payable.getPayableFromTransaction(transaction));
         return repository.save(transaction);
     }
 }

@@ -37,17 +37,17 @@ public class Payable implements Serializable {
     @NotNull
     private LocalDate paymentDate;
 
-    public Payable getPayableFromTransaction(Transaction transaction) {
+    public static Payable getPayableFromTransaction(Transaction transaction) {
         switch (transaction.getPaymentMethod()) {
             case DEBIT_CARD:
                 return Payable.builder()
-                        .value(discountProcessingRate(transaction.getValue(), DEBIT_CARD))
+                        .value(discountProcessingFee(transaction.getValue(), DEBIT_CARD))
                         .status(PAID)
                         .paymentDate(LocalDate.now())
                         .build();
             case CREDIT_CARD:
                 return Payable.builder()
-                        .value(discountProcessingRate(transaction.getValue(), CREDIT_CARD))
+                        .value(discountProcessingFee(transaction.getValue(), CREDIT_CARD))
                         .status(WAITING_FUNDS)
                         .paymentDate(LocalDate.now().plusMonths(1))
                         .build();
@@ -56,7 +56,7 @@ public class Payable implements Serializable {
         }
     }
 
-    public double discountProcessingRate(double value, PaymentMethod fee) {
+    public static double discountProcessingFee(double value, PaymentMethod fee) {
         return value - MathUtil.getValueDiscount(value, fee.getFee());
     }
 }
