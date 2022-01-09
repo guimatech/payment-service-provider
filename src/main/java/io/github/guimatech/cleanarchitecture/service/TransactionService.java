@@ -15,4 +15,8 @@ public class TransactionService {
     public Transaction findById(Long id) {
         return new Transaction();
     }
+
+    public Transaction create(Transaction transaction) {
+        return transaction;
+    }
 }
