@@ -12,6 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+import static io.github.guimatech.cleanarchitecture.mock.TransactionMock.getSampleTransactionCredit;
+import static io.github.guimatech.cleanarchitecture.mock.TransactionMock.getSampleTransactionDebit;
 import static io.github.guimatech.cleanarchitecture.util.ConstantUtil.PATH_TRANSACTION;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -22,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class TransactionControllerTests {
+class TransactionControllerTests {
 
     @Autowired
     private MockMvc mockMvc;
@@ -31,8 +33,9 @@ public class TransactionControllerTests {
     private TransactionService service;
 
     @Test
-    public void shouldReturnAllTransactions() throws Exception {
-        when(service.findAll(PageRequest.of(0, 2))).thenReturn(List.of(new Transaction()));
+    void shouldReturnAllTransactions() throws Exception {
+        when(service.findAll(PageRequest.of(0, 2)))
+                .thenReturn(List.of(getSampleTransactionDebit(), getSampleTransactionCredit()));
 
         this.mockMvc.perform(get(PATH_TRANSACTION))
                 .andDo(print()).andExpect(status().isOk())
@@ -40,8 +43,8 @@ public class TransactionControllerTests {
     }
 
     @Test
-    public void shouldReturnOneTransaction() throws Exception {
-        when(service.findById(1L)).thenReturn(new Transaction());
+    void shouldReturnOneTransaction() throws Exception {
+        when(service.findById(1L)).thenReturn(getSampleTransactionDebit());
 
         this.mockMvc.perform(get(PATH_TRANSACTION + "/1"))
                 .andDo(print()).andExpect(status().isOk())
@@ -49,8 +52,8 @@ public class TransactionControllerTests {
     }
 
     @Test
-    public void shouldReturnTransactionSave() throws Exception {
-        var transaction = new Transaction();
+    void shouldReturnTransactionSave() throws Exception {
+        var transaction = getSampleTransactionDebit();
         when(service.create(transaction)).thenReturn(transaction);
 
         this.mockMvc.perform(post(PATH_TRANSACTION))

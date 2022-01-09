@@ -2,8 +2,8 @@ package io.github.guimatech.cleanarchitecture.model;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serial;
@@ -13,6 +13,9 @@ import java.time.LocalDate;
 @Data
 @Table
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Transaction implements Serializable {
 
@@ -47,5 +50,7 @@ public class Transaction implements Serializable {
     private String cvv;
 
     @NotNull
+    @OneToOne(cascade=CascadeType.PERSIST)
+    @JoinColumn(name="payable_id")
     private Payable payable;
 }

@@ -1,9 +1,7 @@
 package io.github.guimatech.cleanarchitecture.model;
 
 import io.github.guimatech.cleanarchitecture.util.MathUtil;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,6 +18,8 @@ import static io.github.guimatech.cleanarchitecture.model.StatusPayable.WAITING_
 @Table
 @Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Payable implements Serializable {
 

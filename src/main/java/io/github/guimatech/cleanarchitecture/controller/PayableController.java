@@ -5,6 +5,9 @@ import io.github.guimatech.cleanarchitecture.model.Payable;
 import io.github.guimatech.cleanarchitecture.service.PayableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpMediaTypeException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,8 +22,13 @@ public class PayableController {
     private PayableService service;
 
     @GetMapping
-    public List<Payable> findAll(@RequestParam int page, int size) {
-        return service.findAll(PageRequest.of(page, size));
+    public List<Payable> findAll(
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size) {
+        if (page == null || size == null)
+            return service.findAll();
+        else
+            return service.findAll(PageRequest.of(page, size));
     }
 
     @GetMapping("/{id}")
@@ -28,7 +36,7 @@ public class PayableController {
         return service.findById(id);
     }
 
-    @GetMapping("/balance")
+    @GetMapping(value = "/balance", produces = MediaType.APPLICATION_JSON_VALUE)
     public Balance findBalance() {
         return service.findBalance();
     }

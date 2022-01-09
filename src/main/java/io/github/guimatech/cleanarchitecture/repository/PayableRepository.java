@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface PayableRepository extends PagingAndSortingRepository<Payable, Long> {
 
-    @Query(value = "SELECT status, sum(value) as value FROM payable group by status", nativeQuery = true)
+    @Query(value = "SELECT 0 as id, status, sum(value) as value FROM payable group by status", nativeQuery = true)
     List<Payable> findBalance();
 }

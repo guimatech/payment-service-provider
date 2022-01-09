@@ -1,6 +1,5 @@
 package io.github.guimatech.cleanarchitecture.controller;
 
-import io.github.guimatech.cleanarchitecture.mock.PayableMock;
 import io.github.guimatech.cleanarchitecture.service.PayableService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +16,13 @@ import static io.github.guimatech.cleanarchitecture.mock.PayableMock.getSamplePa
 import static io.github.guimatech.cleanarchitecture.util.ConstantUtil.PATH_PAYABLE;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class PayableControllerTests {
+class PayableControllerTests {
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,10 +31,9 @@ public class PayableControllerTests {
     private PayableService service;
 
     @Test
-    public void shouldReturnAllTransactions() throws Exception {
-        when(service.findAll(PageRequest.of(0, 2))).thenReturn(
-                List.of(getSamplePayableDebit(), getSamplePayableCredit())
-        );
+    void shouldReturnAllTransactions() throws Exception {
+        when(service.findAll(PageRequest.of(0, 2)))
+                .thenReturn(List.of(getSamplePayableDebit(), getSamplePayableCredit()));
 
         this.mockMvc.perform(get(PATH_PAYABLE))
                 .andDo(print()).andExpect(status().isOk())
@@ -44,7 +41,7 @@ public class PayableControllerTests {
     }
 
     @Test
-    public void shouldReturnOneTransaction() throws Exception {
+    void shouldReturnOneTransaction() throws Exception {
         when(service.findById(1L)).thenReturn(getSamplePayableDebit());
 
         this.mockMvc.perform(get(PATH_PAYABLE + "/1"))
