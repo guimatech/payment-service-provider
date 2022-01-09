@@ -1,7 +1,12 @@
 package io.github.guimatech.cleanarchitecture.model;
 
-public class Balance {
+import lombok.Builder;
+
+import java.io.Serializable;
+
+@Builder
+public class Balance implements Serializable {
 
     private double available;
-    private double waiting_funds;
+    private double waitingFunds;
 }

@@ -2,7 +2,6 @@ package io.github.guimatech.cleanarchitecture.controller;
 
 import io.github.guimatech.cleanarchitecture.model.Balance;
 import io.github.guimatech.cleanarchitecture.model.Payable;
-import io.github.guimatech.cleanarchitecture.model.Transaction;
 import io.github.guimatech.cleanarchitecture.service.PayableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;

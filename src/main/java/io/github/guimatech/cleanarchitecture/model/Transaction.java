@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -14,6 +15,9 @@ import java.time.LocalDate;
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Transaction implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 5693314637401810363L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
