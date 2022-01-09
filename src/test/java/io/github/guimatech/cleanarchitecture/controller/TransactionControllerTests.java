@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static io.github.guimatech.cleanarchitecture.util.ConstantUtil.PATH_TRANSACTION;
@@ -32,7 +32,7 @@ public class TransactionControllerTests {
 
     @Test
     public void shouldReturnAllTransactions() throws Exception {
-        when(service.findAll()).thenReturn(List.of(new Transaction()));
+        when(service.findAll(PageRequest.of(0, 2))).thenReturn(List.of(new Transaction()));
 
         this.mockMvc.perform(get(PATH_TRANSACTION))
                 .andDo(print()).andExpect(status().isOk())

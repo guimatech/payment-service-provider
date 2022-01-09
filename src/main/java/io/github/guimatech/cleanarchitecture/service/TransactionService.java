@@ -1,22 +1,28 @@
 package io.github.guimatech.cleanarchitecture.service;
 
 import io.github.guimatech.cleanarchitecture.model.Transaction;
+import io.github.guimatech.cleanarchitecture.repository.TransactionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class TransactionService {
-    public List<Transaction> findAll() {
-        return new ArrayList<>();
+
+    @Autowired
+    private TransactionRepository repository;
+
+    public List<Transaction> findAll(Pageable pageable) {
+        return repository.findAll(pageable).toList();
     }
 
     public Transaction findById(Long id) {
-        return new Transaction();
+        return repository.findById(id).orElse(null);
     }
 
     public Transaction create(Transaction transaction) {
-        return transaction;
+        return repository.save(transaction);
     }
 }
