@@ -38,6 +38,11 @@ public class TransactionService {
     }
 
     private void handleSensitiveInformation(Transaction transaction) {
-        transaction.setCardNumber(transaction.getCardNumber().substring(transaction.getCardNumber().length() - 4));
+        String cardNumber = transaction.getCardNumber();
+        String lastFourDigitsCard = cardNumber;
+        if (cardNumber.length() > 4) {
+            lastFourDigitsCard = cardNumber.substring(cardNumber.length() - 4);
+        }
+        transaction.setCardNumber(lastFourDigitsCard);
     }
 }

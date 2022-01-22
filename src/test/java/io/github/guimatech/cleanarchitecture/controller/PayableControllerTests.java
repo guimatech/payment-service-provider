@@ -32,13 +32,23 @@ class PayableControllerTests {
 
     @Test
     void shouldReturnAllTransactions() throws Exception {
-        when(service.findAll(PageRequest.of(0, 2)))
-                .thenReturn(List.of(getSamplePayableDebit(), getSamplePayableCredit()));
+        when(service.findAll()).thenReturn(List.of(getSamplePayableDebit(), getSamplePayableCredit()));
 
         this.mockMvc.perform(get(PATH_PAYABLE))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(content().json("[{}]"));
+                .andExpect(content().json("[{},{}]"));
     }
+
+    @Test
+    void shouldReturnTwoTransactions() throws Exception {
+        when(service.findAll(PageRequest.of(0, 2)))
+                .thenReturn(List.of(getSamplePayableDebit(), getSamplePayableCredit()));
+
+        this.mockMvc.perform(get(PATH_PAYABLE + "?page=0&size=2"))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(content().json("[{},{}]"));
+    }
+
 
     @Test
     void shouldReturnOneTransaction() throws Exception {

@@ -1,13 +1,17 @@
 package io.github.guimatech.cleanarchitecture.api.controller;
 
-import io.github.guimatech.cleanarchitecture.domain.model.Transaction;
-import io.github.guimatech.cleanarchitecture.domain.dto.TransactionDTO;
 import io.github.guimatech.cleanarchitecture.application.service.TransactionService;
+import io.github.guimatech.cleanarchitecture.domain.dto.TransactionRequestDTO;
+import io.github.guimatech.cleanarchitecture.domain.dto.TransactionResponseDTO;
+import io.github.guimatech.cleanarchitecture.domain.model.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static io.github.guimatech.cleanarchitecture.util.ConstantUtil.PATH_TRANSACTION;
 
@@ -19,31 +23,25 @@ public class TransactionController {
     private TransactionService service;
 
     @GetMapping
-    public List<Transaction> findAll(
+    public ResponseEntity<List<TransactionResponseDTO>> findAll(
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size) {
+        List<Transaction> transactions;
         if (page == null || size == null)
-            return service.findAll();
+            transactions = service.findAll();
         else
-            return service.findAll(PageRequest.of(page, size));
+            transactions = service.findAll(PageRequest.of(page, size));
+        return new ResponseEntity<>(transactions.stream().map(TransactionResponseDTO::new).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public Transaction findById(@PathVariable Long id) {
-        return service.findById(id);
+    public ResponseEntity<TransactionResponseDTO> findById(@PathVariable Long id) {
+        return new ResponseEntity<>(service.findById(id).transformToDTO(), HttpStatus.OK);
     }
 
     @PostMapping
-    public Transaction create(@RequestBody TransactionDTO transaction) {
-        var persistentTransaction = Transaction.builder()
-                .value(transaction.getValue())
-                .description(transaction.getDescription())
-                .paymentMethod(transaction.getPaymentMethod())
-                .cardNumber(transaction.getCardNumber())
-                .cardHolderName(transaction.getCardHolderName())
-                .expirationDate(transaction.getExpirationDate())
-                .cvv(transaction.getCvv())
-                .build();
-        return service.create(persistentTransaction);
+    public ResponseEntity<TransactionResponseDTO> create(@RequestBody TransactionRequestDTO dto) {
+        Transaction transaction = service.create(dto.transformToObject());
+        return new ResponseEntity<>(transaction.transformToDTO(), HttpStatus.CREATED);
     }
 }

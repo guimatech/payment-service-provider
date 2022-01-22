@@ -3,6 +3,8 @@ package io.github.guimatech.cleanarchitecture.domain.model;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import io.github.guimatech.cleanarchitecture.domain.dto.TransactionRequestDTO;
+import io.github.guimatech.cleanarchitecture.domain.dto.TransactionResponseDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -53,4 +55,18 @@ public class Transaction implements Serializable {
     @OneToOne(cascade=CascadeType.PERSIST)
     @JoinColumn(name="payable_id")
     private Payable payable;
+
+    public Transaction(TransactionRequestDTO transaction) {
+        this.value = transaction.getValue();
+        this.description = transaction.getDescription();
+        this.paymentMethod = transaction.getPaymentMethod();
+        this.cardNumber = transaction.getCardNumber();
+        this.cardHolderName = transaction.getCardHolderName();
+        this.expirationDate = transaction.getExpirationDate();
+        this.cvv = transaction.getCvv();
+    }
+
+    public TransactionResponseDTO transformToDTO() {
+        return new TransactionResponseDTO(this);
+    }
 }
