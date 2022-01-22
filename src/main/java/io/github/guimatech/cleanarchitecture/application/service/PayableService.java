@@ -2,7 +2,6 @@ package io.github.guimatech.cleanarchitecture.application.service;
 
 import io.github.guimatech.cleanarchitecture.domain.model.Balance;
 import io.github.guimatech.cleanarchitecture.domain.model.Payable;
-import io.github.guimatech.cleanarchitecture.domain.model.StatusPayable;
 import io.github.guimatech.cleanarchitecture.infrastructure.dataprovider.repository.PayableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -36,23 +35,9 @@ public class PayableService {
     }
 
     public Balance findBalance() {
-        var payables = repository.findBalance();
-
         return Balance.builder()
-                .available(getPayableValue(PAID, payables))
-                .waitingFunds(getPayableValue(WAITING_FUNDS, payables))
+                .available(repository.findByStatus(PAID).stream().map(Payable::getValue).reduce(0.0, Double::sum))
+                .waitingFunds(repository.findByStatus(WAITING_FUNDS).stream().map(Payable::getValue).reduce(0.0, Double::sum))
                 .build();
-    }
-
-    private double getPayableValue(StatusPayable statusPayable, List<Payable> payables) {
-        var value = 0.0;
-        if (payables.isEmpty())
-            return value;
-
-        var payableFound = payables.stream().filter(payable -> payable.getStatus() == statusPayable).findFirst().orElse(null);
-        if (payableFound != null)
-            value = payableFound.getValue();
-
-        return value;
     }
 }

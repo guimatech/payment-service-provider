@@ -1,5 +1,6 @@
 package io.github.guimatech.cleanarchitecture.api.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.github.guimatech.cleanarchitecture.application.service.PayableService;
 import io.github.guimatech.cleanarchitecture.domain.model.Balance;
 import io.github.guimatech.cleanarchitecture.domain.model.Payable;
@@ -38,8 +39,8 @@ public class PayableController {
         return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/balance", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Balance> findBalance() {
-        return new ResponseEntity<>(service.findBalance(), HttpStatus.OK);
+    @GetMapping(value = "/balance")
+    public ResponseEntity<String> findBalance() throws JsonProcessingException {
+        return new ResponseEntity<>(service.findBalance().toJson(), HttpStatus.OK);
     }
 }
