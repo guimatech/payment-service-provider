@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>io.github.guimatech</groupId>
-	<artifactId>clean-architecture</artifactId>
+	<artifactId>payment-service-provider</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>clean-architecture</name>
+	<name>payment-service-provider</name>
 	<description>Versão simplificada de um Payment Service Provider (PSP) como o Pagar.me</description>
 	<properties>
 		<java.version>11</java.version>
