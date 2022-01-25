@@ -16,13 +16,13 @@ Para testes da API é necessário que uma aplicação cliente que faça requisi�
 | -------------------------------------------- | ------------------------------------------------------------ |
 | GET `/api/transactions`                      | Retorna uma lista com todas as transações criadas.           |
 | GET `/api/transactions/1`                    | Retorna uma transção específica de acordo com id passado.    |
-| GET `/api/transactions/?limite=10&page=0`    | Retorna uma lista com limite de 10 de transações por página. |
-| GET `/api/transactions/?limite=1&page='1=1'` | Retorna um erro em caso de tentativa de SQLInjection.        |
+| GET `/api/transactions/?size=10&page=0`    | Retorna uma lista com limite de 10 de transações por página. |
+| GET `/api/transactions/?siza=1&page='1=1'` | Retorna um erro em caso de tentativa de SQLInjection.        |
 | POST `/api/transactions`                     | Cria uma transação e seu devido recebível.                   |
 | GET `/api/payables`                          | Retorna uma lista com todos os recebíveis criados.           |
 | GET `/api/payables/1`                        | Retorna um recebível específico de acordo com id passado.    |
-| GET `/api/payables/?limite=10&page=0`        | Retorna uma lista com limite de 10 de recebíveis por página. |
-| GET `/api/payables/?limite=1&page='1=1'`     | Retorna um erro em caso de tentativa de SQLInjection.        |
+| GET `/api/payables/?size=10&page=0`        | Retorna uma lista com limite de 10 de recebíveis por página. |
+| GET `/api/payables/?size=1&page='1=1'`     | Retorna um erro em caso de tentativa de SQLInjection.        |
 
 Exemplo de JSON para requisição POST `/api/transactions`:
 
